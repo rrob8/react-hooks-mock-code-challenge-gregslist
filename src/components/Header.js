@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import Search from "./Search";
 
-function Header() {
+function Header({onSort, searchTerm, onSearch}) {
+
+ 
   return (
     <header>
       <h1>
@@ -9,8 +11,13 @@ function Header() {
           ☮
         </span>
         gregslist
+       
       </h1>
-      <Search />
+      <pre>  </pre>
+      <button
+      onClick={onSort}
+      >Sort by Location</button>
+      <Search searchTerm={searchTerm} onSearch={onSearch} />
     </header>
   );
 }

@@ -1,9 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import ListingCard from "./ListingCard";
+import { SearchContext } from "../context/searchTerm";
 
-function ListingsContainer() {
+function ListingsContainer({sort, searchTerm}) {
 
 const [listings, setListings] = useState([])
+
+
 
 useEffect(()=>{
   fetch(`http://localhost:6001/listings`)
@@ -12,6 +15,37 @@ useEffect(()=>{
 
   
 },[])
+
+useEffect(()=>{
+    
+  if (sort ===true) {
+  const sortedListing = [...listings].sort((a, b) => (a.location > b.location) ? 1 : -1)
+  setListings(sortedListing)
+}
+else if (sort ===false){
+  const unsortedListings = [...listings].sort((a,b)=> (a.id > b.id ) ? 1 : -1)
+  setListings(unsortedListings)
+}
+},[sort])
+
+useEffect(()=>{
+  console.log('search is looking...')
+  
+    fetch(`http://localhost:6001/listings`)
+    .then(response=> response.json())
+    .then(data=> {
+   
+ const searchedItems = data.filter((item)=> item.description.startsWith(searchTerm))
+ setListings(searchedItems)
+ })
+
+ if (searchTerm === '') {
+  fetch(`http://localhost:6001/listings`)
+  .then(response=> response.json())
+  .then(data=> setListings(data))
+ }
+},[searchTerm])
+
 console.log(listings)
 
 function handleDelete (deletedListing) {

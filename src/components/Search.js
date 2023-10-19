@@ -1,19 +1,19 @@
-import React from "react";
+import React, {useState, useContext} from "react";
+import { SearchProvider } from "../context/searchTerm";
 
-function Search() {
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log("submitted");
-  }
+function Search({searchTerm, onSearch}) {
 
+  
+    
+ 
   return (
-    <form className="searchbar" onSubmit={handleSubmit}>
+    <form className="searchbar" >
       <input
         type="text"
         id="search"
         placeholder="search free stuff"
-        value={""}
-        onChange={(e) => console.log(e.target.value)}
+        value={searchTerm}
+        onChange={(e) => onSearch(e)}
       />
       <button type="submit">🔍</button>
     </form>
